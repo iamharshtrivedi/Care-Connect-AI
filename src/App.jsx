@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from './context/AuthContext';
 import { useApp } from './context/AppContext';
+import LandingPage from './components/landing/LandingPage';
 import AuthScreen from './components/auth/AuthScreen';
 import Navbar from './components/layout/Navbar';
 import NotificationToast from './components/shared/NotificationToast';
@@ -21,11 +22,29 @@ export default function App() {
   const { isAuthenticated, user } = useAuth();
   const { darkMode, resetPatientData } = useApp();
 
+  // Show landing page on first visit (per session) unless '?portal=true' is in the URL
+  const [showLanding, setShowLanding] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('portal') === 'true') {
+      return false;
+    }
+    return sessionStorage.getItem('cc_visited') !== 'true';
+  });
+
+  const handleLaunchPlatform = () => {
+    window.open('/?portal=true', '_blank');
+  };
+
   // Reset stale patient data and scroll to top whenever the user session changes
   useEffect(() => {
     resetPatientData();
     window.scrollTo(0, 0);
   }, [user?.email, user?.role]);
+
+  // Landing page (first visit)
+  if (!isAuthenticated && showLanding) {
+    return <LandingPage onLaunchPlatform={handleLaunchPlatform} />;
+  }
 
   // Route guard: show auth screen if not logged in
   if (!isAuthenticated) {
@@ -61,3 +80,4 @@ export default function App() {
     </div>
   );
 }
+

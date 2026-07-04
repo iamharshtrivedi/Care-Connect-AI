@@ -235,7 +235,9 @@ export default function PatientDashboard() {
                 disabled={!symptoms.trim() || isAnalyzing}
                 className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                   !symptoms.trim() || isAnalyzing
-                    ? 'bg-slate-700/50 text-slate-500 cursor-not-allowed'
+                    ? darkMode
+                      ? 'bg-slate-800/40 border border-slate-700/40 text-slate-500 cursor-not-allowed'
+                      : 'bg-gray-150 text-gray-400 border border-gray-200 cursor-not-allowed'
                     : 'bg-gradient-to-r from-primary to-primary-dark text-white hover:shadow-lg hover:shadow-primary/25 hover:scale-105 active:scale-95'
                 }`}
               >
