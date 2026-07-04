@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useApp } from '../../context/AppContext';
 import {
   Activity, Mail, Lock, User, Calendar, AlertCircle,
   ChevronRight, Eye, EyeOff, Sparkles, Shield, Zap,
   Stethoscope, GraduationCap, Settings, Heart, ArrowRight,
-  CheckCircle, Plus, X, MapPin
+  CheckCircle, Plus, X, MapPin, Sun, Moon
 } from 'lucide-react';
 
 const ROLE_OPTIONS = [
@@ -23,6 +24,7 @@ const DEMO_CREDS = [
 
 export default function AuthScreen() {
   const { login, signup } = useAuth();
+  const { darkMode, setDarkMode } = useApp();
   const [mode, setMode] = useState('login'); // 'login' | 'signup'
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -118,20 +120,45 @@ export default function AuthScreen() {
     setError('');
   };
 
-  const inputClass = 'w-full rounded-xl px-4 py-3 text-sm bg-slate-800/50 border border-slate-600/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all';
+  const cardClass = darkMode ? 'glass-card rounded-2xl p-6 sm:p-8' : 'glass-card-light rounded-2xl p-6 sm:p-8 shadow-sm';
+  const labelClass = darkMode ? 'text-slate-400' : 'text-gray-500';
+  const headingClass = darkMode ? 'text-white' : 'text-gray-900';
+  const inputClass = `w-full rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all ${
+    darkMode
+      ? 'bg-slate-800/50 border border-slate-600/50 text-white placeholder-slate-500'
+      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
+  }`;
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className={`min-h-screen flex items-center justify-center p-4 relative overflow-hidden transition-colors duration-300 ${
+      darkMode ? 'bg-slate-950 text-slate-100' : 'bg-gray-50 text-gray-900'
+    }`}>
+      {/* Floating Theme Toggle */}
+      <button
+        id="theme-toggle-auth"
+        onClick={() => setDarkMode(!darkMode)}
+        className={`absolute top-6 right-6 z-50 p-3 rounded-xl transition-all duration-300 ${
+          darkMode
+            ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
+            : 'bg-white hover:bg-gray-100 text-gray-700 border border-gray-200 shadow-sm'
+        }`}
+        title="Toggle Theme"
+      >
+        {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+      </button>
+
       {/* Background effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-accent-cyan/5 blur-[120px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-accent-emerald/3 blur-[200px]" />
+        <div className={`absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[120px] ${darkMode ? 'bg-primary/5' : 'bg-primary/10'}`} />
+        <div className={`absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-[120px] ${darkMode ? 'bg-accent-cyan/5' : 'bg-accent-cyan/10'}`} />
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[200px] ${darkMode ? 'bg-accent-emerald/3' : 'bg-accent-emerald/5'}`} />
       </div>
 
       {/* Grid pattern overlay */}
       <div className="absolute inset-0 opacity-[0.02]" style={{
-        backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+        backgroundImage: darkMode
+          ? `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`
+          : `linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)`,
         backgroundSize: '50px 50px'
       }} />
 
@@ -146,19 +173,19 @@ export default function AuthScreen() {
               <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-accent-emerald border-2 border-slate-950 animate-pulse" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white tracking-tight">CareConnect AI</h1>
-              <p className="text-xs text-slate-400 font-medium">Clinical Decision Intelligence</p>
+              <h1 className={`text-2xl font-bold tracking-tight ${headingClass}`}>CareConnect AI</h1>
+              <p className={`text-xs font-medium ${labelClass}`}>Clinical Decision Intelligence</p>
             </div>
           </div>
 
-          <h2 className="text-4xl font-extrabold text-white leading-tight mb-4">
+          <h2 className={`text-4xl font-extrabold leading-tight mb-4 ${headingClass}`}>
             AI-Powered
             <br />
             <span className="bg-gradient-to-r from-primary-light via-accent-cyan to-accent-emerald bg-clip-text text-transparent">
               Clinical Insights
             </span>
           </h2>
-          <p className="text-slate-400 text-sm leading-relaxed mb-8 max-w-md">
+          <p className={`${labelClass} text-sm leading-relaxed mb-8 max-w-md`}>
             Real-time differential diagnosis, explainable AI reasoning, drug interaction detection, and
             intelligent triage — powered by Google's Gemini AI.
           </p>
@@ -172,17 +199,21 @@ export default function AuthScreen() {
               { icon: Zap, text: 'Sub-Second Triage Classification', color: 'text-amber-400' },
             ].map((feat, i) => (
               <div key={i} className="flex items-center gap-3 animate-fade-in" style={{ animationDelay: `${i * 100}ms` }}>
-                <div className="w-8 h-8 rounded-lg bg-slate-800/80 border border-slate-700/50 flex items-center justify-center">
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                  darkMode ? 'bg-slate-800/80 border border-slate-700/50' : 'bg-white border border-gray-200 shadow-sm'
+                }`}>
                   <feat.icon className={`w-4 h-4 ${feat.color}`} />
                 </div>
-                <span className="text-sm text-slate-300">{feat.text}</span>
+                <span className={`text-sm ${darkMode ? 'text-slate-300' : 'text-gray-700'}`}>{feat.text}</span>
               </div>
             ))}
           </div>
 
-          <div className="mt-10 flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+          <div className={`mt-10 flex items-center gap-2 px-3 py-1.5 rounded-full border ${
+            darkMode ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-emerald-50 border-emerald-200 text-emerald-700'
+          }`}>
             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[10px] font-semibold text-emerald-400 tracking-wide">HACKATHON PROTOTYPE · LIVE DEMO ENVIRONMENT</span>
+            <span className="text-[10px] font-semibold tracking-wide">HACKATHON PROTOTYPE · LIVE DEMO ENVIRONMENT</span>
           </div>
         </div>
 
@@ -194,20 +225,22 @@ export default function AuthScreen() {
               <Activity className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-white">CareConnect AI</h1>
-              <p className="text-[10px] text-slate-400">Clinical Decision Intelligence</p>
+              <h1 className={`text-lg font-bold ${headingClass}`}>CareConnect AI</h1>
+              <p className={`text-[10px] ${labelClass}`}>Clinical Decision Intelligence</p>
             </div>
           </div>
 
-          <div className="glass-card rounded-2xl p-6 sm:p-8">
+          <div className={cardClass}>
             {/* Mode Toggle */}
-            <div className="flex gap-1 p-1 rounded-xl bg-slate-800/50 mb-6">
+            <div className={`flex gap-1 p-1 rounded-xl mb-6 ${
+              darkMode ? 'bg-slate-800/50' : 'bg-gray-100 border border-gray-200'
+            }`}>
               <button
                 onClick={() => { setMode('login'); setError(''); }}
                 className={`flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all ${
                   mode === 'login'
                     ? 'bg-gradient-to-r from-primary to-primary-dark text-white shadow-lg'
-                    : 'text-slate-400 hover:text-white'
+                    : `${darkMode ? 'text-slate-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'}`
                 }`}
               >
                 Sign In
@@ -217,7 +250,7 @@ export default function AuthScreen() {
                 className={`flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all ${
                   mode === 'signup'
                     ? 'bg-gradient-to-r from-primary to-primary-dark text-white shadow-lg'
-                    : 'text-slate-400 hover:text-white'
+                    : `${darkMode ? 'text-slate-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'}`
                 }`}
               >
                 Patient Sign Up
@@ -236,7 +269,7 @@ export default function AuthScreen() {
             {mode === 'login' && (
               <form onSubmit={handleLogin} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-medium text-slate-400 mb-1.5">Email Address</label>
+                  <label className={`block text-xs font-medium mb-1.5 ${labelClass}`}>Email Address</label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                     <input
@@ -252,7 +285,7 @@ export default function AuthScreen() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-400 mb-1.5">Password</label>
+                  <label className={`block text-xs font-medium mb-1.5 ${labelClass}`}>Password</label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                     <input
@@ -276,7 +309,7 @@ export default function AuthScreen() {
 
                 {/* Role selector */}
                 <div>
-                  <label className="block text-xs font-medium text-slate-400 mb-1.5">Portal Access</label>
+                  <label className={`block text-xs font-medium mb-1.5 ${labelClass}`}>Portal Access</label>
                   <div className="grid grid-cols-4 gap-1.5">
                     {ROLE_OPTIONS.map(role => {
                       const Icon = role.icon;
@@ -289,7 +322,11 @@ export default function AuthScreen() {
                           className={`flex flex-col items-center gap-1 py-2.5 rounded-xl text-[10px] font-semibold transition-all ${
                             isActive
                               ? `bg-gradient-to-r ${role.color} text-white shadow-lg scale-105`
-                              : 'bg-slate-800/50 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-700/50'
+                              : `${
+                                  darkMode
+                                    ? 'bg-slate-800/50 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-700/50'
+                                    : 'bg-white text-gray-500 hover:text-gray-950 hover:bg-gray-50 border border-gray-200 shadow-sm'
+                                }`
                           }`}
                         >
                           <Icon className="w-4 h-4" />
@@ -422,7 +459,7 @@ export default function AuthScreen() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-slate-400 mb-1.5">
+                      <label className={`block text-xs font-medium mb-1.5 ${labelClass}`}>
                         Known Allergies <span className="text-slate-600">(comma-separated)</span>
                       </label>
                       <div className="relative">
@@ -445,7 +482,11 @@ export default function AuthScreen() {
                     <button
                       type="button"
                       onClick={() => { setSignupStep(signupStep - 1); setError(''); }}
-                      className="px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800 transition-all"
+                      className={`px-4 py-3 rounded-xl text-sm font-medium transition-all border ${
+                        darkMode
+                          ? 'text-slate-400 hover:text-white bg-slate-800/50 border-slate-700/50 hover:bg-slate-800'
+                          : 'text-gray-600 hover:text-gray-950 bg-gray-50 border-gray-200 hover:bg-gray-100 shadow-sm'
+                      }`}
                     >
                       Back
                     </button>
@@ -481,10 +522,10 @@ export default function AuthScreen() {
             {/* Divider */}
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-700/50" />
+                <div className={`w-full border-t ${darkMode ? 'border-slate-700/50' : 'border-gray-200'}`} />
               </div>
               <div className="relative flex justify-center text-xs">
-                <span className="px-3 bg-surface-card text-slate-500 font-medium">Demo Quick-Login</span>
+                <span className={`px-3 font-semibold ${darkMode ? 'bg-[#151d30] text-slate-500' : 'bg-white text-gray-500'}`}>Demo Quick-Login</span>
               </div>
             </div>
 
@@ -492,7 +533,11 @@ export default function AuthScreen() {
             <button
               id="demo-toggle"
               onClick={() => setShowDemo(!showDemo)}
-              className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-slate-800/30 border border-slate-700/30 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-all"
+              className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-xs font-semibold border transition-all ${
+                darkMode
+                  ? 'bg-slate-800/30 border-slate-700/30 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  : 'bg-white border-gray-200 text-gray-600 hover:text-gray-900 hover:bg-gray-50 shadow-sm'
+              }`}
             >
               <span className="flex items-center gap-2">
                 <Zap className="w-3.5 h-3.5 text-amber-400" />
@@ -508,12 +553,16 @@ export default function AuthScreen() {
                     key={i}
                     id={`demo-login-${cred.role.toLowerCase()}`}
                     onClick={() => handleDemoLogin(cred)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left border transition-all ${cred.color}`}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left border transition-all ${
+                      darkMode
+                        ? cred.color
+                        : `border-gray-200 bg-gray-50/50 hover:bg-gray-100 text-gray-700`
+                    }`}
                   >
                     <span className="text-lg">{cred.icon}</span>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-white">{cred.role}</p>
-                      <p className="text-[10px] text-slate-400 truncate">{cred.email}</p>
+                      <p className={`text-xs font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>{cred.role}</p>
+                      <p className={`text-[10px] truncate ${darkMode ? 'text-slate-400' : 'text-gray-500'}`}>{cred.email}</p>
                     </div>
                     <ArrowRight className="w-4 h-4 text-slate-500" />
                   </button>
