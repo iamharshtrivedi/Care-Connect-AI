@@ -197,7 +197,7 @@ function NavBar({ onLaunch }) {
     }`}>
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-3 group">
+        <a href="#" aria-label="CareConnect AI home" className="flex items-center gap-3 group">
           <div className="relative">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-accent-cyan flex items-center justify-center shadow-lg shadow-primary/25 group-hover:shadow-primary/40 transition-shadow">
               <Activity className="w-5 h-5 text-white" />
@@ -230,6 +230,7 @@ function NavBar({ onLaunch }) {
           {/* Theme Toggle Button */}
           <button
             onClick={() => setDarkMode(!darkMode)}
+            aria-label="Toggle interface color theme"
             className={`p-2 rounded-xl transition-all duration-300 mr-2 border ${
               darkMode
                 ? 'hover:bg-slate-800 text-slate-400 border-slate-800'
@@ -242,6 +243,7 @@ function NavBar({ onLaunch }) {
 
           <button
             onClick={onLaunch}
+            aria-label="Launch CareConnect AI portal in a new tab"
             className="ml-2 px-5 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-primary to-primary-dark text-white hover:shadow-lg hover:shadow-primary/25 hover:scale-105 active:scale-95 transition-all"
           >
             Launch Platform
@@ -252,6 +254,8 @@ function NavBar({ onLaunch }) {
         <button
           className="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
           onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={mobileOpen}
         >
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
@@ -279,6 +283,7 @@ function NavBar({ onLaunch }) {
             {/* Theme Toggle for Mobile */}
             <button
               onClick={() => { setDarkMode(!darkMode); setMobileOpen(false); }}
+              aria-label={`Toggle color theme (currently ${darkMode ? 'Dark' : 'Light'} Mode)`}
               className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl transition-all ${
                 darkMode ? 'text-slate-300 hover:bg-white/5' : 'text-gray-700 hover:bg-gray-100'
               }`}
@@ -289,7 +294,11 @@ function NavBar({ onLaunch }) {
               </span>
             </button>
 
-            <button onClick={onLaunch} className="block w-full mt-3 px-4 py-3 rounded-xl text-sm font-bold bg-gradient-to-r from-primary to-primary-dark text-white text-center">
+            <button
+              onClick={onLaunch}
+              aria-label="Launch CareConnect AI portal in a new tab"
+              className="block w-full mt-3 px-4 py-3 rounded-xl text-sm font-bold bg-gradient-to-r from-primary to-primary-dark text-white text-center"
+            >
               Launch Platform
             </button>
           </div>

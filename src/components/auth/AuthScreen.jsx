@@ -137,6 +137,7 @@ export default function AuthScreen() {
       <button
         id="theme-toggle-auth"
         onClick={() => setDarkMode(!darkMode)}
+        aria-label="Toggle interface color theme"
         className={`absolute top-6 right-6 z-50 p-3 rounded-xl transition-all duration-300 ${
           darkMode
             ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'

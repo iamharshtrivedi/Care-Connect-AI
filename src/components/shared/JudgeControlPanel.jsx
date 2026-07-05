@@ -18,24 +18,21 @@ export default function JudgeControlPanel() {
   return (
     <div className="fixed bottom-4 right-4 z-[200]">
       {isOpen && (
-        <div className={`mb-2 w-56 rounded-2xl border backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-300 ${
-          darkMode
+        <div className={`mb-2 w-56 rounded-2xl border backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-300 ${darkMode
             ? 'bg-slate-900/95 border-slate-700/60 shadow-black/40'
             : 'bg-white border-gray-250 shadow-slate-300/40 text-gray-900'
-        }`}>
-          {/* Header */}
-          <div className={`px-4 py-3 border-b flex items-center justify-between ${
-            darkMode ? 'border-slate-700/50' : 'border-gray-150'
           }`}>
+          {/* Header */}
+          <div className={`px-4 py-3 border-b flex items-center justify-between ${darkMode ? 'border-slate-700/50' : 'border-gray-150'
+            }`}>
             <div className="flex items-center gap-2">
               <Wrench className="w-3.5 h-3.5 text-amber-400" />
               <span className={`text-xs font-semibold ${darkMode ? 'text-slate-200' : 'text-gray-800'}`}>Judge Control Panel</span>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className={`p-0.5 rounded-lg transition-colors ${
-                darkMode ? 'hover:bg-slate-800 text-slate-500 hover:text-white' : 'hover:bg-gray-100 text-gray-400 hover:text-gray-900'
-              }`}
+              className={`p-0.5 rounded-lg transition-colors ${darkMode ? 'hover:bg-slate-800 text-slate-500 hover:text-white' : 'hover:bg-gray-100 text-gray-400 hover:text-gray-900'
+                }`}
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -61,13 +58,12 @@ export default function JudgeControlPanel() {
                   key={role.key}
                   id={`judge-switch-${role.key}`}
                   onClick={() => { switchRole(role.key); }}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all ${
-                    isActive
+                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all ${isActive
                       ? 'bg-primary/10 text-primary-light border border-primary/20'
                       : darkMode
                         ? 'text-slate-400 hover:text-white ' + role.color
                         : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
                   <span>{role.label}</span>
@@ -89,15 +85,14 @@ export default function JudgeControlPanel() {
       <button
         id="judge-panel-toggle"
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-[10px] font-bold transition-all shadow-lg border ${
-          isOpen
+        className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-[10px] font-bold transition-all shadow-lg border ${isOpen
             ? darkMode
               ? 'bg-amber-500/20 text-amber-400 border-amber-500/30'
               : 'bg-amber-50 text-amber-600 border-amber-200'
             : darkMode
               ? 'bg-slate-800/90 text-slate-400 hover:text-amber-400 border-slate-700/50 hover:border-amber-500/30 backdrop-blur-xl'
               : 'bg-white/95 text-gray-600 hover:text-amber-600 border-gray-200 hover:border-amber-300 backdrop-blur-xl shadow-md'
-        }`}
+          }`}
       >
         <Wrench className="w-3 h-3" />
         <span>Judge</span>

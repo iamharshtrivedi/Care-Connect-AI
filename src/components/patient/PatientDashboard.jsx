@@ -531,6 +531,7 @@ export default function PatientDashboard() {
               <button
                 id="add-med-btn"
                 onClick={() => setShowAddMed(true)}
+                aria-label="Add a new medication to tracker"
                 className={`p-1.5 rounded-lg transition-colors ${
                   darkMode ? 'hover:bg-slate-800 text-slate-400 hover:text-white' : 'hover:bg-gray-150 text-gray-500 hover:text-gray-900'
                 }`}
@@ -551,6 +552,7 @@ export default function PatientDashboard() {
                   <button
                     id={`med-toggle-${med.id}`}
                     onClick={() => toggleMedication(med.id)}
+                    aria-label={`Toggle status for medication ${med.name}`}
                     className="flex flex-1 items-center gap-3 text-left focus:outline-none min-w-0"
                   >
                     <div className={`w-5 h-5 rounded-md flex items-center justify-center transition-colors shrink-0 ${
@@ -572,6 +574,7 @@ export default function PatientDashboard() {
                     <button
                       id={`med-delete-${med.id}`}
                       onClick={() => deleteMedication(med.id)}
+                      aria-label={`Delete medication ${med.name}`}
                       className={`p-1.5 rounded-lg hover:bg-red-500/10 text-slate-500 hover:text-red-400 transition-colors`}
                       title="Delete medication"
                     >
