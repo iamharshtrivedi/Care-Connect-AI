@@ -88,6 +88,41 @@ To evaluate the platform, use these pre-configured user credentials on the Sign 
 
 ---
 
+## 🌐 Deployment to Google Cloud Run
+
+CareConnect AI includes full container configuration for deployment on Google Cloud Run using Nginx to serve the compiled static assets.
+
+### Prerequisites
+1. Installed [Google Cloud CLI](https://cloud.google.com/sdk/docs/install).
+2. Authenticated and set your active project ID:
+   ```bash
+   gcloud auth login
+   gcloud config set project YOUR_PROJECT_ID
+   ```
+3. Enabled Cloud Build and Cloud Run APIs:
+   ```bash
+   gcloud services enable cloudbuild.googleapis.com run.googleapis.com
+   ```
+
+### Deploying Step-by-Step
+
+1. **Build the container image** with your Gemini API key:
+   ```bash
+   gcloud builds submit --config cloudbuild.yaml --substitutions=_VITE_GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+   ```
+
+2. **Deploy to Cloud Run**:
+   ```bash
+   gcloud run deploy care-connect-ai \
+     --image gcr.io/YOUR_PROJECT_ID/care-connect-ai \
+     --platform managed \
+     --region us-central1 \
+     --allow-unauthenticated \
+     --port 80
+   ```
+
+---
+
 ## 📂 Project Structure
 
 ```text
